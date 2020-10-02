@@ -1,15 +1,24 @@
 {
+    "name": "sbe1/webcore",
+    "description": "Common PHP Classes for Web Applications",
+    "type": "library",
+    "keywords": [
+        "webcore", "web", "application"
+    ],
+    "homepage": "https://github.com/sbe1/webcore/",
+    "license": "MIT",
+    "authors": [{
+        "name": "Shawn Ewald",
+        "email": "shawn.ewald@gmail.com",
+        "role": "lead"
+    }],
     "require": {
-        "sbe1/webcore": "dev-master@dev"
+        "php": ">=7.1",
+        "sbe1/webcore": "dev-master@dev",
     },
-    "repositories": [{
-            "type": "vcs",
-            "url": "https://github.com/sbe1/webcore"
-        },
-        {
-            "type": "composer",
-            "url": "https://packagist.org"
-        },
-        { "packagist": false }
-    ]
+    "autoload": {
+        "classmap": [
+            ""
+        ]
+    }
 }
