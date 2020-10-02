@@ -36,9 +36,11 @@ class DatabaseJSONFile {
     /**
      * Private constructor.
      * 
+     * @param string $dataFile - path to JSON file.
+     * 
      * @return self
      */
-    private function __construct ($dataFile) {
+    private function __construct (string $dataFile) {
         try {
             $this->dataFile = $dataFile;
             $this->data = json_decode(file_get_contents($this->dataFile), true);
@@ -167,6 +169,7 @@ class DatabaseJSONFile {
     }
     /**
      * Creates or overwrites a collection. There is no check to see if the collection already exists.
+     * Use collectionExists() method to create your own logic.
      * 
      * @param string $collection
      * 
