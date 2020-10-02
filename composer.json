@@ -15,5 +15,10 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sbe1\\Webcore\\": "src/"
+        }
     }
 }
