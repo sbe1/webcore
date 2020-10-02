@@ -13,12 +13,6 @@
         "role": "lead"
     }],
     "require": {
-        "php": ">=7.1",
-        "sbe1/webcore": "dev-master@dev",
-    },
-    "autoload": {
-        "classmap": [
-            ""
-        ]
+        "php": ">=7.1"
     }
 }
