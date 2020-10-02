@@ -1,11 +1,9 @@
 {
-"require": {
-  "sbe1/webcore":"dev-master@dev"
-}
-"repositories": [
-  {
-     "type": "vcs",
-     "url": "https://github.com/madskullcreations/simplicity" 
-  }
-]
+    "require": {
+        "sbe1/webcore": "dev-master@dev"
+    },
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/madskullcreations/simplicity"
+    }]
 }
