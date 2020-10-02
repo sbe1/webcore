@@ -1,5 +1,5 @@
 <?php
-namespace Sewald\Webcore;
+namespace Sbe1\Webcore;
 
 /**
  * HTTP Request class. Can be used standalone or inside of a controller.

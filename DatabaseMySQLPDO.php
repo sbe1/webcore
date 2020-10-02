@@ -1,5 +1,5 @@
 <?php
-namespace Sewald\Webcore;
+namespace Sbe1\Webcore;
 
 /**
  * MYSQL PDO Class

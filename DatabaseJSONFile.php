@@ -1,5 +1,5 @@
 <?php
-namespace Sewald\Webcore;
+namespace Sbe1\Webcore;
 /**
  * A class for interacting with a JSON flat file database.
  *

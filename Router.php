@@ -1,5 +1,5 @@
 <?php
-namespace Sewald\Webcore;
+namespace Sbe1\Webcore;
 
 /**
  * A very simple convenience class for routing requests to controllers.

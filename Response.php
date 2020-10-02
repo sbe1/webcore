@@ -1,5 +1,5 @@
 <?php
-namespace Sewald\Webcore;
+namespace Sbe1\Webcore;
 
 /**
  * Response class. Can be used standalone or inside of a controller.
