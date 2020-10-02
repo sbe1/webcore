@@ -1,1 +1,7 @@
-{ "packages": {} }
+{
+    "packages": {
+        "sbe1/webcore": {
+            "dev-master": { @composer.json }
+        }
+    }
+}
