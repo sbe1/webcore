@@ -12,7 +12,7 @@
         "email": "shawn.ewald@gmail.com",
         "role": "lead"
     }],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": ">=7.1"
     },
