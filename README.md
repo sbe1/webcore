@@ -6,4 +6,4 @@ Install with composer:
 
 # Installation
 
-composer require sbe1/webcore
+composer require sbe1/webcore dev-master
