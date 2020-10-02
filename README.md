@@ -4,6 +4,6 @@ This is a set of convenience classes for use in custom web applications or as th
 
 Install with composer:
 
-php composer.phar sbe1/webcore
+# Installation
 
-#
+composer require sbe1/webcore
