@@ -239,15 +239,19 @@ class Response {
 
     /**
      * Send the complete response.
-     * NOTE: The $nobody argument set to boolean TRUE is mainly useful for responding to HEAD requests.
-     * HEAD request do not expect a body in the response.
+     * NOTE: The $nobody argument set to boolean TRUE is mainly useful for responding to HEAD and PUT requests.
+     * HEAD and PUT request do not expect a body in the response.
      * 
-     * @param boolean $nobody
+     * @param array $cookies
      * @param array $headers
+     * @param boolean $nobody
      * 
      * @return void
      */
-    public function sendResponse (array $headers=null, $nobody=false) {
+    public function sendResponse (array $cookies=null, array $headers=null, $nobody=false) {
+        if (!empty($cookies)) {
+            $this->setCookies($cookies);
+        }
         if ($this->isRedirect()) {
             header($this->getStatusHeader(), true);
             header('Location: '.$this->getRedirectUrl());
