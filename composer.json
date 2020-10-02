@@ -3,7 +3,13 @@
         "sbe1/webcore": "dev-master@dev"
     },
     "repositories": [{
-        "type": "vcs",
-        "url": "https://github.com/sbe1/webcore"
-    }]
+            "type": "vcs",
+            "url": "https://github.com/sbe1/webcore"
+        },
+        {
+            "type": "composer",
+            "url": "https://packagist.org"
+        },
+        { "packagist": false }
+    ]
 }
