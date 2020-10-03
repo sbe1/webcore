@@ -16,7 +16,7 @@ class Request {
     private array $_path_array;
     private int $_path_array_length = 0;
     private array $_cookies;
-    private $_params;
+    private array $_params;
     private string $_post_body;
     private $_files = null;
     private string $_method;
@@ -40,7 +40,7 @@ class Request {
     public function __construct(array $config=null){
         $default_config = ['upload_dir'=>null, 'extensions'=>[]];
         $this->_config = empty($config) ? $default_config : $config;
-        $this->_referer = (string)empty($_SERVER['HTTP_REFERER']) ? null : $_SERVER['HTTP_REFERER'];
+        $this->_referer = empty($_SERVER['HTTP_REFERER']) ? null : $_SERVER['HTTP_REFERER'];
         $this->_remote_addr = $_SERVER["REMOTE_ADDR"];
         $this->_remote_port = (int)$_SERVER["REMOTE_PORT"];
         $this->_method = $_SERVER['REQUEST_METHOD'];
@@ -52,9 +52,10 @@ class Request {
         $this->_path_array_length = count($this->_path_array);
         $this->_is_ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']);
         $this->_is_upload = !empty($_FILES);
-        $params = null;
+        $params = [];
         switch ($this->_method) {
             case 'HEAD':
+            case 'TRACE':
                 $this->_is_head_request = true;
                 break;
             case 'GET':
@@ -64,6 +65,7 @@ class Request {
             case 'POST':
             case 'PUT':
                 if ($this->isUpload()) {
+                    $this->_params = $_POST;
                     $this->handleUpload();
                 }
                 else {
@@ -77,6 +79,8 @@ class Request {
                     else { parse_str($this->_post_body, $params); }
                 }
                 break;
+            default:
+                throw new Exception('Request Method not supported.');
         }
         $this->_params = $params;
     }
@@ -214,23 +218,22 @@ class Request {
      * @return void
      */
     public function handleUpload () {
-        $this->_params = [];
-        foreach ($_POST as $k=>$v) {
-            $this->_params[$k] = $v;
-        }
         $this->_files = [];
         $check_ext = isset($this->_config['extensions']) && !empty($this->_config['extensions']);
         $move_file = isset($this->_config['upload_dir']) && !empty($this->_config['upload_dir']);
         foreach ($_FILES as $k => $file) {
-            $pi = pathinfo($file);
+            $pi = pathinfo($file['name']);
             $file['pathinfo'] = $pi;
             if ($check_ext) {
                 if (in_array($pi['extension'], $this->_config['extensions'])) {
                     $this->_files[] = $file;
+                    if ($move_file) { move_uploaded_file($file['tmp_name'], $this->_config['upload_dir'].$file['name']); }
                 }
             }
-            else { $this->_files[$file['name']] = $file; }
-            if ($move_file) { move_uploaded_file($file['tmp_name'], $this->_config['upload_dir'].$file['name']); }
+            else {
+                $this->_files[] = $file;
+                if ($move_file) { move_uploaded_file($file['tmp_name'], $this->_config['upload_dir'].$file['name']); }
+            }
         }
     }
 }
