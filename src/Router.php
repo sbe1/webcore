@@ -20,6 +20,7 @@ class Router {
     private array $_path_array;
     private string $_method;
     private string $_default_controller;
+    private string $_controller_suffix;
     private string $_default_action;
     private string $_controller;
     private string $_action;
@@ -32,13 +33,15 @@ class Router {
      * @param string $method - HTTP request method
      * @param string $defaultcontroller
      * @param string $defaultaction
+     * @param string $controllersuffix
      * 
      * @return self
      */
     public function __construct(string $routefile, string $defaultcontroller=null,
-        string $defaultaction=null){
-        $this->_default_controller = empty($defaultcontroller) ? 'Home' : $defaultcontroller;
+        string $defaultaction=null, string $controllersuffix=null){
+        $this->_default_controller = empty($defaultcontroller) ? 'Home' : ucfirst($defaultcontroller);
         $this->_default_action = empty($defaultaction) ? 'index' : $defaultaction;
+        $this->_controller_suffix = $controllersuffix;
         $tmp = explode('?', $_SERVER['REQUEST_URI'], 2);
         $this->_path_array = array_values( array_filter( explode('/', $tmp[0])  ));
         $this->_method = $_SERVER['REQUEST_METHOD'];
@@ -57,7 +60,7 @@ class Router {
         $plen = count($this->_path_array);
         switch ($plen) {
             case 0:
-                $this->_controller = $this->_default_controller;
+                $this->_controller = ucfirst($this->_default_controller);
                 $this->_action = $this->_default_action;
                 break;
             case 1:
@@ -66,7 +69,7 @@ class Router {
                     $this->_action = $this->_default_action;
                 }
                 else {
-                    $this->_controller = ucfirst($this->_path_array[0]);
+                    $this->_controller = $this->_path_array[0];
                     $this->_action = $this->_default_action;
                 }
                 break;
@@ -84,6 +87,9 @@ class Router {
                 $this->_action = $this->_path_array[1];
                 $this->_params = [$this->_path_array[2],$this->_path_array[3]];
                 break;
+            default:
+                $this->_controller = $this->_default_controller;
+                $this->_action = $this->_default_action;
         }
     }
 
@@ -92,7 +98,7 @@ class Router {
      * 
      * @return string
      */
-    private function getRouteNameFromPath () {
+    private function getRouteFromURI () {
         $pa = $this->_path_array;
         $plen = count($pa);
         $result = null;
@@ -112,6 +118,8 @@ class Router {
             case 4:
                 $result = $pa[0].'/'.$pa[1].'/[param]/[param]';
                 break;
+            default:
+                $result = '/';
         }
         return $result;
     }
@@ -132,10 +140,10 @@ class Router {
      */
     public function getRoute () {
         $r = new Route();
-        $r->setRoute($this->getRouteNameFromPath());
+        $r->setRoute($this->getRouteFromURI());
         $r->setURI('/'.join('/', $this->_path_array));
         $r->setMethod($this->_method);
-        $r->setController($this->_controller);
+        $r->setController($this->_controller, $this->_controller_suffix);
         $r->setAction($this->_action);
         $r->setParams($this->_params);
         return $r;
@@ -167,15 +175,6 @@ class Router {
     public function getParams () {
         return $this->_params;
     }
-
-    /**
-     * Return test result for test checking that the controller name was set.
-     * 
-     * 
-     */
-    public function getRouteStatus () {
-        return !empty($this->_controller);
-    }
 }
 
 class Route {
@@ -183,6 +182,7 @@ class Route {
     private string $_uri;
     private string $_method;
     private string $_controller;
+    private bool $_controller_exists;
     private string $_action;
     private array $_params;
 
@@ -239,11 +239,14 @@ class Route {
 
     /**
      * @param string $controller
+     * @param string $suffix - optional controller suffix
      * 
      * @return void
      */
-    public function setController (string $controller) {
-        $this->_controller = $controller;
+    public function setController (string $controller, string $suffix=null) {
+        $ctlr = empty($suffix) ? $controller : $controller.$suffix;
+        $this->_controller = $ctlr;
+        $this->_controller_exists = class_exists($ctlr);
     }
 
     /**
@@ -252,6 +255,13 @@ class Route {
      */
     public function getController () {
         return $this->_controller;
+    }
+
+    /**
+     * 
+     */
+    public function controllerExists () {
+        return $this->_controller_exists;
     }
 
     /**
