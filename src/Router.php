@@ -60,7 +60,7 @@ class Router {
         $plen = count($this->_path_array);
         switch ($plen) {
             case 0:
-                $this->_controller = ucfirst($this->_default_controller);
+                $this->_controller = $this->_default_controller;
                 $this->_action = $this->_default_action;
                 break;
             case 1:
@@ -69,21 +69,21 @@ class Router {
                     $this->_action = $this->_default_action;
                 }
                 else {
-                    $this->_controller = $this->_path_array[0];
+                    $this->_controller = ucfirst($this->_path_array[0]);
                     $this->_action = $this->_default_action;
                 }
                 break;
             case 2:
-                $this->_controller = $this->_path_array[0];
+                $this->_controller = ucfirst($this->_path_array[0]);
                 $this->_action = $this->_path_array[1];
                 break;
             case 3:
-                $this->_controller = $this->_path_array[0];
+                $this->_controller = ucfirst($this->_path_array[0]);
                 $this->_action = $this->_path_array[1];
                 $this->_params = [$this->_path_array[2]];
                 break;
             case 4:
-                $this->_controller = $this->_path_array[0];
+                $this->_controller = ucfirst($this->_path_array[0]);
                 $this->_action = $this->_path_array[1];
                 $this->_params = [$this->_path_array[2],$this->_path_array[3]];
                 break;
