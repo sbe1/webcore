@@ -171,7 +171,7 @@ class Response {
     /**
      * Set the response body content.
      * 
-     * @param int $content
+     * @param string $content
      * 
      * @return void
      */
