@@ -39,7 +39,8 @@ class Router {
      */
     public function __construct(string $routefile, string $defaultcontroller=null,
         string $defaultaction=null, string $controllersuffix=null){
-        $this->_default_controller = empty($defaultcontroller) ? 'Home' : ucfirst($defaultcontroller);
+        $this->_default_controller = (empty($defaultcontroller) ? 'Home' : ucfirst($defaultcontroller))
+            .(empty($controllersuffix) ? '' : $controllersuffix);;
         $this->_default_action = empty($defaultaction) ? 'index' : $defaultaction;
         $this->_controller_suffix = $controllersuffix;
         $tmp = explode('?', $_SERVER['REQUEST_URI'], 2);
