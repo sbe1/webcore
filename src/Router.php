@@ -39,10 +39,9 @@ class Router {
      */
     public function __construct(string $routefile, string $defaultcontroller=null,
         string $defaultaction=null, string $controllersuffix=null){
-        $this->_default_controller = (empty($defaultcontroller) ? 'Home' : ucfirst($defaultcontroller))
-            .(empty($controllersuffix) ? '' : $controllersuffix);;
+        $this->_default_controller = (empty($defaultcontroller) ? 'Home' : ucfirst($defaultcontroller));
         $this->_default_action = empty($defaultaction) ? 'index' : $defaultaction;
-        $this->_controller_suffix = $controllersuffix;
+        $this->_controller_suffix = (empty($controllersuffix) ? '' : ucfirst($controllersuffix));
         $tmp = explode('?', $_SERVER['REQUEST_URI'], 2);
         $this->_path_array = array_values( array_filter( explode('/', $tmp[0])  ));
         $this->_method = $_SERVER['REQUEST_METHOD'];
@@ -61,35 +60,35 @@ class Router {
         $plen = count($this->_path_array);
         switch ($plen) {
             case 0:
-                $this->_controller = $this->_default_controller;
+                $this->_controller = $this->_default_controller.$this->_controller_suffix;
                 $this->_action = $this->_default_action;
                 break;
             case 1:
                 if (empty($this->_path_array[0])) {
-                    $this->_controller = $this->_default_controller;
+                    $this->_controller = $this->_default_controller.$this->_controller_suffix;
                     $this->_action = $this->_default_action;
                 }
                 else {
-                    $this->_controller = ucfirst($this->_path_array[0]);
+                    $this->_controller = ucfirst($this->_path_array[0]).$this->_controller_suffix;
                     $this->_action = $this->_default_action;
                 }
                 break;
             case 2:
-                $this->_controller = ucfirst($this->_path_array[0]);
+                $this->_controller = ucfirst($this->_path_array[0]).$this->_controller_suffix;
                 $this->_action = $this->_path_array[1];
                 break;
             case 3:
-                $this->_controller = ucfirst($this->_path_array[0]);
+                $this->_controller = ucfirst($this->_path_array[0]).$this->_controller_suffix;
                 $this->_action = $this->_path_array[1];
                 $this->_params = [$this->_path_array[2]];
                 break;
             case 4:
-                $this->_controller = ucfirst($this->_path_array[0]);
+                $this->_controller = ucfirst($this->_path_array[0]).$this->_controller_suffix;
                 $this->_action = $this->_path_array[1];
                 $this->_params = [$this->_path_array[2],$this->_path_array[3]];
                 break;
             default:
-                $this->_controller = $this->_default_controller;
+                $this->_controller = $this->_default_controller.$this->_controller_suffix;
                 $this->_action = $this->_default_action;
         }
     }
