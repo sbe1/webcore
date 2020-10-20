@@ -1,5 +1,6 @@
 <?php
 namespace Sbe1\Webcore;
+use \PDO;
 
 /**
  * MYSQL PDO Class

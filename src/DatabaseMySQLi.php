@@ -1,5 +1,6 @@
 <?php
 namespace Sbe1\Webcore;
+use mysqli;
 
 /**
  * MySQLi class
