@@ -50,7 +50,8 @@ class Request {
         $this->_url_data = parse_url($this->_url);
         $this->_path_array = array_values(array_filter(explode('/', $this->_url_data['path'])));
         $this->_path_array_length = count($this->_path_array);
-        $this->_is_ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']);
+        $headers = getallheaders();
+        $this->_is_ajax = isset($headers['http_x_requested_with']) || isset($headers['HTTP_X_REQUESTED_WITH']);
         $this->_is_upload = !empty($_FILES);
         $params = [];
         switch ($this->_method) {
