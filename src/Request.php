@@ -20,6 +20,7 @@ class Request {
     private string $_post_body;
     private $_files = null;
     private string $_method;
+    private bool $_is_secure;
     private bool $_is_head_request;
     private bool $_is_ajax;
     private bool $_is_upload;
@@ -45,7 +46,8 @@ class Request {
         $this->_remote_port = (int)$_SERVER["REMOTE_PORT"];
         $this->_method = $_SERVER['REQUEST_METHOD'];
         $this->_cookies = $_COOKIE;
-        $this->_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http')
+        $this->_is_secure = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on');
+        $this->_url = ($this->_is_secure ? 'https' : 'http')
             . strtolower("://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
         $this->_url_data = parse_url($this->_url);
         $this->_path_array = array_values(array_filter(explode('/', $this->_url_data['path'])));
@@ -184,6 +186,15 @@ class Request {
      */
     public function getParams () {
         return $this->_params;
+    }
+
+    /**
+     * Returns boolean test result
+     * 
+     * @return boolean
+     */
+    public function isSecure () {
+        return $this->_is_secure;
     }
 
     /**
