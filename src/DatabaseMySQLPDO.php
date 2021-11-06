@@ -128,7 +128,7 @@ class DatabaseMySQLPDO {
      * 
      * @return void
      */
-    public function preparedBatchQuery (string $sql, array $pramsset) {
+    public function preparedBatchQuery (string $sql, array $paramset) {
         $stmt = $this->_conn->prepare($sql);
         foreach ($paramset as $params) {
             $stmt->execute($params);

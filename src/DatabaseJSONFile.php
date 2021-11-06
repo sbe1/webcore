@@ -45,7 +45,7 @@ class DatabaseJSONFile {
             $this->dataFile = $dataFile;
             $this->data = json_decode(file_get_contents($this->dataFile), true);
         }
-        catch (Exception $e) { throw new Exception($e); }
+        catch (\Exception $e) { throw new \Exception($e); }
     }
     public static function getInstance ($dataFile) {
         if (self::$instance == null) {
@@ -53,7 +53,7 @@ class DatabaseJSONFile {
                 self::$instance = new DatabaseJSONFile($dataFile);
             }
             else {
-                throw new Exception('Data file either does not exist or is not writable.');
+                throw new \Exception('Data file either does not exist or is not writable.');
             }
         }
         return self::$instance;

@@ -83,7 +83,7 @@ class Request {
                 }
                 break;
             default:
-                throw new Exception('Request Method not supported.');
+                throw new \Exception('Request Method not supported.');
         }
         $this->_params = $params;
     }
