@@ -41,14 +41,20 @@ class DatabaseMySQLPDO {
      * @return void
      */
     public function connect (string $user, string $pass, array $options=null) {
-        $opts = empty($options) ? [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => true
-        ] : $options;
+        if (empty($options)) {
+            $options = [
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES   => true
+            ];
+        }
+        else {
+            $options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
+            $options[PDO::ATTR_DEFAULT_FETCH_MODE] = PDO::FETCH_ASSOC;
+        }
         try {
-            $this->_conn = new PDO($this->_dsn, $user, $pass, $opts);
+            $this->_conn = new PDO($this->_dsn, $user, $pass, $options);
         } catch (\PDOException $e) {
             throw new \PDOException($e->getMessage(), (int)$e->getCode());
         }
